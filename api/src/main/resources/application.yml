@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/sentinelscan}
+    username: ${DATABASE_USER:sentinelscan}
+    password: ${DATABASE_PASSWORD:sentinelscan}
+  flyway:
+    enabled: true
