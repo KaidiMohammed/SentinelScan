@@ -1,0 +1,39 @@
+<!doctype html>
+<!--
+  SentinelScan test target: "leaky-bundle" (Phase 2, SEC-03).
+
+  INTENTIONALLY VULNERABLE TEST PAGE. ALL KEYS BELOW ARE FAKE.
+  - Project ref "fakeprojectref00000000" does not exist.
+  - Signatures are the literal text "fake-signature-for-tests": these JWTs are not signed
+    by any Supabase project and cannot authenticate anywhere.
+  - The JWT payloads also carry "note": "FAKE KEY FOR SENTINELSCAN TESTS".
+
+  How to use:
+  1. Serve this folder, e.g.  jwebserver -b 127.0.0.1 -p 8089 -d "$(pwd)/test-targets/leaky-bundle"
+  2. Scan http://127.0.0.1:8089/ : criterion 1, the service_role key is reported, redacted.
+  3. Delete the block between "LEAK START" and "LEAK END" (or serve a copy without it)
+     and re-scan : criterion 2, nothing is reported. The anon key stays on purpose: it is
+     public by design and must NOT be reported (negative control).
+-->
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>SentinelScan test target: leaky-bundle (FAKE keys)</title>
+</head>
+<body>
+  <h1>leaky-bundle: test target with FAKE keys</h1>
+  <p>Volontairement vulnérable, pour tester SentinelScan. Aucune clé réelle.</p>
+
+  <script>
+    // Simulates a client bundle built with a Supabase config (Lovable/Bolt style).
+    window.__APP_CONFIG__ = {
+      supabaseUrl: "https://fakeprojectref00000000.supabase.invalid",
+      // Public anon key (FAKE): normal in a frontend, must NOT be reported.
+      supabaseAnonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZha2Vwcm9qZWN0cmVmMDAwMDAwMDAiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTcwMDAwMDAwMCwiZXhwIjoxOTAwMDAwMDAwLCJub3RlIjoiRkFLRSBLRVkgRk9SIFNFTlRJTkVMU0NBTiBURVNUUyJ9.fake-signature-for-tests",
+      // LEAK START: FAKE service_role key exposed by mistake. Delete through LEAK END for the "fixed" case.
+      supabaseServiceRoleKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZha2Vwcm9qZWN0cmVmMDAwMDAwMDAiLCJyb2xlIjoic2VydmljZV9yb2xlIiwiaWF0IjoxNzAwMDAwMDAwLCJleHAiOjE5MDAwMDAwMDAsIm5vdGUiOiJGQUtFIEtFWSBGT1IgU0VOVElORUxTQ0FOIFRFU1RTIn0.fake-signature-for-tests",
+      // LEAK END
+    };
+  </script>
+</body>
+</html>
