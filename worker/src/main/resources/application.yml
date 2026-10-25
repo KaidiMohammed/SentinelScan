@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/sentinelscan}
+    username: ${DATABASE_USER:sentinelscan}
+    password: ${DATABASE_PASSWORD:sentinelscan}
+  main:
+    web-application-type: none
+sentinelscan:
+  worker:
+    poll-interval-ms: ${POLL_INTERVAL_MS:2000}
