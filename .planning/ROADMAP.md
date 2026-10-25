@@ -15,7 +15,7 @@ suivantes ajoutent la largeur passive, l'IA et le PDF, puis la surveillance paya
 
 ## Phases
 
-- [x] **Phase 1: Socle des scans** - Jobs en tâche de fond, worker isolé, progression en direct, preuves (completed 2026-10-25)
+- [ ] **Phase 1: Socle des scans** - Jobs en tâche de fond, worker isolé, progression en direct, preuves
 - [ ] **Phase 2: Secrets exposés dans les bundles** - Détection passive, masquage, preuve sur cible de test
 - [ ] **Phase 3: Domaine vérifié et RLS Supabase** - Propriété du domaine, test RLS en lecture seule
 - [ ] **Phase 4: Rapport et note** - Note A–F, top 3, cartes de constat, re-scan avant/après, FR/EN
@@ -80,7 +80,7 @@ suivantes ajoutent la largeur passive, l'IA et le PDF, puis la surveillance paya
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Socle des scans | 2/2 | Complete   | 2026-10-25 |
+| 1. Socle des scans | 2/2 | Gaps found (CORE-03, CORE-04) | - |
 | 2. Secrets exposés dans les bundles | 0/1 | Not started | - |
 | 3. Domaine vérifié et RLS Supabase | 0/1 | Not started | - |
 | 4. Rapport et note | 0/? | Not started | - |
