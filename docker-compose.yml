@@ -1,0 +1,40 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: sentinelscan
+      POSTGRES_USER: sentinelscan
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-sentinelscan}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sentinelscan"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build: ./api
+    environment: &db
+      DATABASE_URL: jdbc:postgresql://postgres:5432/sentinelscan
+      DATABASE_USER: sentinelscan
+      DATABASE_PASSWORD: ${POSTGRES_PASSWORD:-sentinelscan}
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # Worker isolé : conteneur séparé, aucun port exposé, accès à Postgres uniquement.
+  worker:
+    build: ./worker
+    environment: *db
+    depends_on:
+      postgres:
+        condition: service_healthy
+      api:
+        condition: service_started   # l'API applique les migrations Flyway
+    restart: unless-stopped
+
+volumes:
+  pgdata:
