@@ -42,6 +42,8 @@ suivantes ajoutent la largeur passive, l'IA et le PDF, puis la surveillance paya
   2. Après retrait de la clé, le re-scan ne rapporte plus rien
   3. Aucun secret en clair en base ni dans les logs
 **Plans**: 1 plan
+Plans:
+- [x] 02-01-PLAN.md — Détection des secrets dans les bundles JS publics, toujours masqués (check level; intégration Phase 1 en attente)
 
 ### Phase 3: Domaine vérifié et RLS Supabase
 **Goal**: Après preuve de propriété du domaine, le scan actif détecte en lecture seule les tables Supabase lisibles sans authentification.
@@ -69,6 +71,6 @@ suivantes ajoutent la largeur passive, l'IA et le PDF, puis la surveillance paya
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Socle des scans | 0/2 | Not started | - |
-| 2. Secrets exposés dans les bundles | 0/1 | Not started | - |
+| 2. Secrets exposés dans les bundles | 1/1 | Code done, awaiting Phase 1 integration | - |
 | 3. Domaine vérifié et RLS Supabase | 0/1 | Not started | - |
 | 4. Rapport et note | 0/? | Not started | - |
