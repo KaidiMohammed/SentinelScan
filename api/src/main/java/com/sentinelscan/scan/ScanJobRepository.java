@@ -14,6 +14,9 @@ public class ScanJobRepository {
     static final String SELECT_SQL = "SELECT id, target_url, status, error, note, created_at, started_at, finished_at "
             + "FROM scan_job WHERE id = ?";
 
+    static final String CHECKS_SQL = "SELECT check_key, status, reason FROM scan_check "
+            + "WHERE scan_job_id = ? ORDER BY updated_at, check_key";
+
     private final JdbcTemplate jdbc;
 
     public ScanJobRepository(JdbcTemplate jdbc) {
@@ -32,6 +35,12 @@ public class ScanJobRepository {
                 rs.getString("error"), rs.getString("note"),
                 instant(rs.getTimestamp("created_at")), instant(rs.getTimestamp("started_at")),
                 instant(rs.getTimestamp("finished_at"))), id).stream().findFirst();
+    }
+
+    /** Lignes réelles uniquement : aucune ligne n'est jamais fabriquée ici. */
+    public java.util.List<ScanCheckRow> findChecks(UUID jobId) {
+        return jdbc.query(CHECKS_SQL, (rs, i) -> new ScanCheckRow(
+                rs.getString("check_key"), rs.getString("status"), rs.getString("reason")), jobId);
     }
 
     private static Instant instant(Timestamp t) {
